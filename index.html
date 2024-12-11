@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Selecao Bootstrap Template</title>
+  <title>Symfony Contactes</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -51,8 +51,20 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="/index.html" class="active">Home</a></li>
-          <li><a href="/contactes/public/">Part I</a></li>
-          <li><a href="#services">Part II</a></li>
+          <li class="dropdown"><a href="/contactes/public/"><span>Part I</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <ul>
+            <li><a href="/contactes/public/contacte/3">Contactes per fitxa</a></li>
+            <li><a href="/contactes/public/contacte/Sa">Contactes buscar Sa</a></li>
+            <li><a href="/contactes/public/contacte/">Contactes buscar vuit</a></li>
+          </ul>
+          </li>
+          <li class="dropdown"><a href="/contactesPlantilles/public/"><span>Part II</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="/contactesPlantilles/public/contacte/3">Contactes per fitxa</a></li>
+              <li><a href="/contactesPlantilles/public/contacte/Sa">Contactes buscar Sa</a></li>
+              <li><a href="/contactesPlantilles/public/contacte/">Contactes buscar vuit</a></li>
+            </ul>
+            </li>
           <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#team">Team</a></li>
           <li><a href="blog.html">Blog</a></li>
