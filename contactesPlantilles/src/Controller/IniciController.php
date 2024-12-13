@@ -10,5 +10,11 @@ class IniciController extends AbstractController
 	{
 		return $this->render('inici.html.twig');
 	}
+
+	#[Route('/iniciHerencia' ,name:'iniciHerencia')]
+	public function iniciHerencia()
+	{
+		return $this->render('iniciHerencia.html.twig');
+	}
 }
 ?>

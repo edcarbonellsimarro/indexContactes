@@ -75,4 +75,60 @@ class ContacteController extends AbstractController
         return $this->render('llista_contactes.html.twig',
  					array('contactes' => $resultat));
     }
+
+
+    #[ Route( '/contacteHerencia/{codi<\d+>?1}', name:'fitxa_contacteHerencia' ) ]
+
+    public function fitxaHerencia( $codi )
+ {
+        $resultat = array_filter(
+            $this->contactes,
+
+            function ( $contacte ) use ( $codi ) {
+                return $contacte[ 'codi' ] == $codi;
+            }
+        );
+        if ( count( $resultat ) > 0 ) {
+            return $this->render( 'fitxa_contacteHerencia.html.twig',
+                                    array( 'contacte' => array_shift( $resultat ) ) );
+        } 
+        else
+        return $this->render('fitxa_contacteHerencia.html.twig', array(
+'contacte' => NULL));
+    }
+
+    #[ Route( '/contacteHerencia/{text}', name: 'buscar_contacteHerencia' ) ]
+
+    public function buscarHerencia( $text )
+ {
+        $resultat = array_filter(
+            $this->contactes,
+
+            function ( $contacte ) use ( $text ) {
+                return strpos( $contacte[ 'nom' ], $text ) !== FALSE;
+            }
+        );
+        return $this->render('llista_contactesHerencia.html.twig',
+ 					array('contactes' => $resultat));
+    }
+
+    #[ Route( '/contacteIncloure/{codi<\d+>?1}', name:'fitxa_contacteIncloure' ) ]
+
+    public function fitxaIncloure( $codi )
+ {
+        $resultat = array_filter(
+            $this->contactes,
+
+            function ( $contacte ) use ( $codi ) {
+                return $contacte[ 'codi' ] == $codi;
+            }
+        );
+        if ( count( $resultat ) > 0 ) {
+            return $this->render( 'fitxa_contacteIncloure.html.twig',
+                                    array( 'contacte' => array_shift( $resultat ) ) );
+        } 
+        else
+        return $this->render('fitxa_contacteIncloure.html.twig', array(
+'contacte' => NULL));
+    }
 }
