@@ -5,117 +5,25 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\BDProva;
+use App\Service\UnaClasse;
 
 class ContacteController extends AbstractController
- {
-    private $contactes = array(
-        array(
-            'codi' => 1,
-            'nom' => 'Salvador Sala',
-            'telefon' => '638961244',
-            'email' => 'salvasala@simarro.org'
-        ),
-        array(
-            'codi' => 2,
-            'nom' => 'Anna Llopis',
-            'telefon' => '669332004',
-            'email' => 'annallopis@simarro.org'
-        ),
-        array(
-            'codi' => 3,
-            'nom' => 'Marc Sanchis',
-            'telefon' => '962286040',
-            'email' => 'marcsanchis@simarro.org'
-        ),
-        array(
-            'codi' => 4,
-            'nom' => 'Laura Palop',
-            'telefon' => '663568890',
-            'email' => 'laurapalop@simarro.org'
-        ),
-        array(
-            'codi' => 5,
-            'nom' => 'Sara Sidle',
-            'telefon' => '638765434',
-            'email' => 'sarasidle@simarro.org'
-        ),
-    );
+{
+    private $contactes;
+    private $contactesCombinat;
+	
 
-    #[ Route( '/contacte/{codi<\d+>?1}', name:'fitxa_contacte' ) ]
+    public function __construct(BDProva $dades, UnaClasse $UnaC)
+	{
+		$this->contactes = $dades->get();
+        $this->contactesCombinat = $UnaC->get();
+	}
 
-    public function fitxa( $codi )
- {
-        $resultat = array_filter(
-            $this->contactes,
+    #[Route('/contacte/{codi<\d+>?1}' ,name:'fitxa_contacte')]
 
-            function ( $contacte ) use ( $codi ) {
-                return $contacte[ 'codi' ] == $codi;
-            }
-        );
-        if ( count( $resultat ) > 0 ) {
-            return $this->render( 'fitxa_contacte.html.twig',
-                                    array( 'contacte' => array_shift( $resultat ) ) );
-        } 
-        else
-        return $this->render('fitxa_contacte.html.twig', array(
-'contacte' => NULL));
-    }
-
-    #[ Route( '/contacte/{text}', name: 'buscar_contacte' ) ]
-
-    public function buscar( $text )
- {
-        $resultat = array_filter(
-            $this->contactes,
-
-            function ( $contacte ) use ( $text ) {
-                return strpos( $contacte[ 'nom' ], $text ) !== FALSE;
-            }
-        );
-        return $this->render('llista_contactes.html.twig',
- 					array('contactes' => $resultat));
-    }
-
-
-    #[ Route( '/contacteHerencia/{codi<\d+>?1}', name:'fitxa_contacteHerencia' ) ]
-
-    public function fitxaHerencia( $codi )
- {
-        $resultat = array_filter(
-            $this->contactes,
-
-            function ( $contacte ) use ( $codi ) {
-                return $contacte[ 'codi' ] == $codi;
-            }
-        );
-        if ( count( $resultat ) > 0 ) {
-            return $this->render( 'fitxa_contacteHerencia.html.twig',
-                                    array( 'contacte' => array_shift( $resultat ) ) );
-        } 
-        else
-        return $this->render('fitxa_contacteHerencia.html.twig', array(
-'contacte' => NULL));
-    }
-
-    #[ Route( '/contacteHerencia/{text}', name: 'buscar_contacteHerencia' ) ]
-
-    public function buscarHerencia( $text )
- {
-        $resultat = array_filter(
-            $this->contactes,
-
-            function ( $contacte ) use ( $text ) {
-                return strpos( $contacte[ 'nom' ], $text ) !== FALSE;
-            }
-        );
-        return $this->render('llista_contactesHerencia.html.twig',
- 					array('contactes' => $resultat));
-    }
-
-    #[ Route( '/contacteIncloure/{codi<\d+>?1}', name:'fitxa_contacteIncloure' ) ]
-
-    public function fitxaIncloure( $codi )
- {
+    public function fitxa($codi)
+    {
         $resultat = array_filter(
             $this->contactes,
 
@@ -130,5 +38,40 @@ class ContacteController extends AbstractController
         else
         return $this->render('fitxa_contacteIncloure.html.twig', array(
 'contacte' => NULL));
+    }
+
+    #[Route('/contacteCombinat/{codi<\d+>?1}' ,name:'fitxa_contacteCombinat')]
+
+    public function fitxaCombinat($codi)
+    {
+       $this->contactesCombinat->set();
+        $resultat = array_filter(
+            $this->contactesCombinat->getContactes(),
+
+            function ( $contacte ) use ( $codi ) {
+                return $contacte[ 'codi' ] == $codi;
+            }
+        );
+        if ( count( $resultat ) > 0 ) {
+            return $this->render( 'fitxa_contacteIncloure.html.twig',
+                                    array( 'contacte' => array_shift( $resultat ) ) );
+        } 
+        else
+        return $this->render('fitxa_contacteIncloure.html.twig', array(
+'contacte' => NULL));
+    }
+
+    #[Route('/contacte/{text}', name: 'buscar_contacte')]
+    public function buscar($text)
+    {
+        $resultat = array_filter(
+            $this->contactes,
+
+            function ( $contacte ) use ( $text ) {
+                return strpos( $contacte[ 'nom' ], $text ) !== FALSE;
+            }
+        );
+        return $this->render('llista_contactesHerencia.html.twig',
+ 					array('contactes' => $resultat));
     }
 }
